@@ -1,7 +1,7 @@
 import React from "react";
 import css from './Feedback.module.css'
 import { Statistics } from "./Statistics"
-import { FeedbackOptions } from "./FeedbackOptions"
+// import { FeedbackOptions } from "./FeedbackOptions"
 import { Section } from "./Section"
 import { Notification } from "./Notification"
 
