@@ -1,9 +1,15 @@
 import React from "react";
 import css from './Feedback.module.css'
 import { Statistics } from "./Statistics"
-// import { FeedbackOptions } from "./FeedbackOptions"
+import { FeedbackOptions } from "./FeedbackOptions"
 import { Section } from "./Section"
 import { Notification } from "./Notification"
+
+const feedbackButtonOptions = [
+    { label: 'Good' },
+    { label: 'Neutral' },
+    { label: 'Bad' },
+];
 
 class Feedback extends React.Component {
     state = {
@@ -12,30 +18,12 @@ class Feedback extends React.Component {
         bad: 0
     }
 
-    // handleIncrement = () => {
-    //     this.setState(prevState => {
-    //         return ({
-    //             good: prevState.good + 1,
-    //         });
-    //     });
-    // }
-
-    handleIncrementGood = () => {
-        this.setState(prevState => ({
-            good: prevState.good + 1,
-        }));
-    }
-
-    handleIncrementNeutral = () => {
-        this.setState(prevState => ({
-            neutral: prevState.neutral + 1,
-        }));
-    }
-
-    handleIncrementBad = () => {
-        this.setState(prevState => ({
-            bad: prevState.bad + 1,
-        }));
+    handleIncrement = index => {
+        this.setState(prevState => {
+            if (index === 0) return ({ good: prevState.good + 1 });
+            if (index === 1) return ({ neutral: prevState.neutral + 1 });
+            if (index === 2) return ({ bad: prevState.bad + 1 });
+        });
     }
 
     countTotalFeedback() {
@@ -58,21 +46,10 @@ class Feedback extends React.Component {
         return (
             <div className={css.feedbackBlock}>
                 <Section title="Please leave feedback">
-
-                    <button type="button" onClick={ this.handleIncrementGood }>
-                        Good
-                    </button>
-                    <button type="button" onClick={ this.handleIncrementNeutral }>
-                        Neutral
-                    </button>
-                    <button type="button" onClick={ this.handleIncrementBad }>
-                        Bad
-                    </button>
-
-                    {/* <FeedbackOptions
-                        options={ 1 }
-                        onLeaveFeedback={ 2 }
-                    /> */}
+                    <FeedbackOptions
+                        options={ feedbackButtonOptions }
+                        onLeaveFeedback={ this.handleIncrement }
+                    />
                 </Section>
                 <Section title="Statistics">
                     {
