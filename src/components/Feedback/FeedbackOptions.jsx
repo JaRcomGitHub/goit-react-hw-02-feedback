@@ -3,20 +3,18 @@ import PropTypes from 'prop-types';
 export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
     return (
         <>
-            {options.map(({ label }, index) => (
+            {options.map((option, index) => (
                 <button
-                    key={label}
+                    key={index}
                     type='button'
-                    onClick={() => onLeaveFeedback(index)}
-                >{label}</button>
+                    onClick={() => onLeaveFeedback(option)}
+                >{option}</button>
             ))}
         </>
     );
 }
 
 FeedbackOptions.propTypes = {
-    options: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string,
-    })).isRequired,
+    options: PropTypes.arrayOf(PropTypes.string).isRequired,
     onLeaveFeedback: PropTypes.func.isRequired,
 };

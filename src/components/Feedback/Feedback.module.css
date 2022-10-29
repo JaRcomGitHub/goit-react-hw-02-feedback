@@ -8,6 +8,7 @@
     font-weight: 500;
     font-size: 16px;
     font-family: inherit;
+    text-transform: capitalize;
     color: #000000;
     cursor: pointer;
     outline: none;

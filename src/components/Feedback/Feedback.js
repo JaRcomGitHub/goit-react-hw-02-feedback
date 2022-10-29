@@ -5,36 +5,23 @@ import { FeedbackOptions } from "./FeedbackOptions"
 import { Section } from "./Section"
 import { Notification } from "./Notification"
 
-const feedbackButtonOptions = [
-    { label: 'Good' },
-    { label: 'Neutral' },
-    { label: 'Bad' },
-];
+const feedbackOptions = ['good', 'neutral', 'bad'];
 
 class Feedback extends React.Component {
-    state = {
-        good: 0,
-        neutral: 0,
-        bad: 0
-    }
 
-    handleIncrement = index => {
-        this.setState(prevState => {
-            if (index === 0) return ({ good: prevState.good + 1 });
-            if (index === 1) return ({ neutral: prevState.neutral + 1 });
-            if (index === 2) return ({ bad: prevState.bad + 1 });
-        });
+    handleIncrement = option => {
+        this.setState(prevState => ({ [option]: prevState[option] + 1 }));
     }
 
     countTotalFeedback() {
-        const { good, neutral, bad } = this.state;
+        const { stateFeedback: { good, neutral, bad } } = this.props;
         return (
             good + neutral + bad
         );
     }
 
     countPositiveFeedbackPercentage() {
-        const { good } = this.state;
+        const { stateFeedback: { good } } = this.props;
         const total = this.countTotalFeedback();
         return (
             total ? Math.round(good / total * 100) : 0
@@ -42,12 +29,13 @@ class Feedback extends React.Component {
     }
 
     render() {
+        const { stateFeedback: { good, neutral, bad } } = this.props;
         return (
             <div className={css.feedbackBlock}>
                 <Section title="Please leave feedback">
                     <FeedbackOptions
-                        options={ feedbackButtonOptions }
-                        onLeaveFeedback={ this.handleIncrement }
+                        options={ feedbackOptions }
+                        onLeaveFeedback={ this.props.onFeedbackIncrement }
                     />
                 </Section>
                 <Section title="Statistics">
@@ -55,9 +43,9 @@ class Feedback extends React.Component {
                         (this.countTotalFeedback() > 0)
                         ?
                         <Statistics
-                            good={this.state.good}
-                            neutral={this.state.neutral}
-                            bad={this.state.bad}
+                            good={good}
+                            neutral={neutral}
+                            bad={bad}
                             total={this.countTotalFeedback()}
                             positivePercentage={this.countPositiveFeedbackPercentage()}
                         />
