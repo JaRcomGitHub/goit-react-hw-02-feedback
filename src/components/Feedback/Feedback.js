@@ -8,20 +8,25 @@ import { Notification } from "./Notification"
 const feedbackOptions = ['good', 'neutral', 'bad'];
 
 class Feedback extends React.Component {
-
-    handleIncrement = option => {
-        this.setState(prevState => ({ [option]: prevState[option] + 1 }));
+    state = {
+        good: 0,
+        neutral: 0,
+        bad: 0,
     }
 
+    handleIncrementFeedback = option => {
+        this.setState(prevState => ({ [option]: prevState[option] + 1 }));
+    }
+    
     countTotalFeedback() {
-        const { stateFeedback: { good, neutral, bad } } = this.props;
+        const { good, neutral, bad } = this.state;
         return (
             good + neutral + bad
         );
     }
 
     countPositiveFeedbackPercentage() {
-        const { stateFeedback: { good } } = this.props;
+        const { good } = this.state;
         const total = this.countTotalFeedback();
         return (
             total ? Math.round(good / total * 100) : 0
@@ -29,13 +34,13 @@ class Feedback extends React.Component {
     }
 
     render() {
-        const { stateFeedback: { good, neutral, bad } } = this.props;
+        const { good, neutral, bad } = this.state;
         return (
             <div className={css.feedbackBlock}>
                 <Section title="Please leave feedback">
                     <FeedbackOptions
                         options={ feedbackOptions }
-                        onLeaveFeedback={ this.props.onFeedbackIncrement }
+                        onLeaveFeedback={ this.handleIncrementFeedback }
                     />
                 </Section>
                 <Section title="Statistics">
